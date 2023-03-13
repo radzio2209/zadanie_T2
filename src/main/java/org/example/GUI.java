@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -63,6 +64,7 @@ public class GUI extends JFrame implements ActionListener {
 
         add(buttonPanel, BorderLayout.NORTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
+
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -130,6 +132,8 @@ public class GUI extends JFrame implements ActionListener {
 
         table.getModel().addTableModelListener(tcl);
 * */
+
+
     public static void main(String[] args) {
         GUI gui = new GUI();
         gui.setVisible(true);
