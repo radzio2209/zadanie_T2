@@ -1,0 +1,49 @@
+public void actionPerformed(ActionEvent e) {
+    // ...
+    if (e.getSource() == importButton) {
+        DefaultTableModel newModel = new DefaultTableModel();
+        // wczytanie danych z pliku i dodanie ich do nowego modelu
+        try (BufferedReader br = new BufferedReader(new FileReader("katalog.txt"))) {
+            // ...
+            while ((line = br.readLine()) != null) {
+                // ...
+                newModel.addRow(parts);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        // Porównanie nowego modelu z obecnym modelem tabeli i aktualizacja kolorów wierszy
+        compareModelsAndHighlightDuplicates((DefaultTableModel) table.getModel(), newModel);
+    }
+    // ...
+    if (e.getSource() == importXMLButton) {
+        DefaultTableModel newModel = new DefaultTableModel();
+        // wczytanie danych z pliku XML i dodanie ich do nowego modelu
+        try {
+            // ...
+            for (Laptop laptop : laptopList.getLaptopList()) {
+                // ...
+                newModel.addRow(new Object[]{...});
+            }
+        } catch (JAXBException ex) {
+            ex.printStackTrace();
+        }
+        // Porównanie nowego modelu z obecnym modelem tabeli i aktualizacja kolorów wierszy
+        compareModelsAndHighlightDuplicates((DefaultTableModel) table.getModel(), newModel);
+    }
+    // ...
+}
+
+private void compareModelsAndHighlightDuplicates(DefaultTableModel currentModel, DefaultTableModel newModel) {
+    currentModel.setRowCount(0);
+    for (int i = 0; i < newModel.getRowCount(); i++) {
+        Object[] newRow = new Object[newModel.getColumnCount()];
+        for (int j = 0; j < newModel.getColumnCount(); j++) {
+            newRow[j] = newModel.getValueAt(i, j);
+        }
+        boolean duplicate = isDuplicate(currentModel, newRow);
+        currentModel.addRow(newRow);
+        int row = currentModel.getRowCount() - 1;
+        updateRowColor(table, row, duplicate ? Color.RED : Color.GRAY);
+    }
+}
